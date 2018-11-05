@@ -20,6 +20,12 @@ public class PA6Main {
 				//System.out.println("lol");
 				eco.create(line);
 			}
+			else if (command.equals("move")) {
+				eco.move(line);
+			}
+			else if (command.equals("print")) {
+				eco.print();
+			}
 		}
 		
 	}

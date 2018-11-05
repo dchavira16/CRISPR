@@ -40,7 +40,13 @@ public class Animal{
         this.animalBank = animalBank;
     }
 	public String getType() {
-		return type.toString();
+		
+		return this.type.toString();//this.type.toString();
+	}
+	
+	public String getAnimalClass() {
+		return(((Animal) this.type).getType());
+		//return "";
 	}
 	public String findType(String name) {
 		//System.out.println(name);
@@ -62,8 +68,16 @@ public class Animal{
 					return (type);
 				}
 				
+				
 			}
 		}
 		return "";
+	}
+	public String getName() {
+		// TODO Auto-generated method stub
+		if (this.getAnimalClass().equals(".")){
+			return "";
+		}
+		return ((Animal) this.type).getName();
 	}
 }
