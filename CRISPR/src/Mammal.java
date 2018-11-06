@@ -5,8 +5,10 @@ public class Mammal extends Animal {
 	private String gender;
 	private String direction;
 	private int lastEat;
+	private int facing;
 	public Mammal(String[] line) {
 		super("");
+		this.facing=1;
 		this.age=100;
 		this.lastEat=10;
 		String name = line[2];
@@ -17,7 +19,17 @@ public class Mammal extends Animal {
 		this.direction = direction;
 		// TODO Auto-generated constructor stub
 	}
-
+	public void changeFacing() {
+		if(this.facing==1) {
+			this.facing=0;
+		}
+		else if(this.facing==0) {
+			this.facing=1;
+		}
+	}
+	public int getFacing() {
+		return this.facing;
+	}
 	public int getAge() {
 		return this.age;
 	}

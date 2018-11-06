@@ -100,4 +100,12 @@ public class Animal<E>{
 		// TODO Auto-generated method stub
 		((Animal) this.type).square();
 	}
+	public int getFacing() {
+		// TODO Auto-generated method stub
+		return ((Animal) this.type).getFacing();
+	}
+	public void changeFacing() {
+		// TODO Auto-generated method stub
+		((Animal) this.type).changeFacing();
+	}
 }

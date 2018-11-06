@@ -5,7 +5,6 @@ public class Ecosystem {
 	private ArrayList<ArrayList> row;
 	private ArrayList<Animal> col;
 	
-	
 	public Ecosystem(int rows,int cols) {
 		
 		ArrayList<ArrayList<ArrayList<Animal>>> eco= new ArrayList<ArrayList<ArrayList<Animal>>>();
@@ -23,13 +22,13 @@ public class Ecosystem {
 	}
 	public void print() {
 		 	String[] line = new String[10];
-	        Bird b = new Bird("blank", "blank", "0");
+	        Bird b = new Bird(line);
 	        Insect i = new Insect(line);
 	        Mammal m = new Mammal(line);
 	        String allLines = "";
 	        for (ArrayList<ArrayList<Animal>> row: this.eco) {
-	        	for (ArrayList<Animal> cols : row) {
-	        		allLines+=(cols.get(0).getType().substring(0,1));
+	        	for (ArrayList<Animal> cols : row) { 
+	        		allLines+=(cols.get(0).getName().substring(0,1));
 	        	}
 	        	allLines+="\n";
 	        }
@@ -47,12 +46,17 @@ public class Ecosystem {
 		if (type.equals("insect")) {
 			Insect insect = new Insect(line);
 			Animal bug = new Animal(insect);
-			this.eco.get(x).get(y).set(0,bug);			
+			this.eco.get(x).get(y).add(0,bug);			
 		}
 		if (type.equals("mammal")) {
 			Mammal mammal = new Mammal(line);
 			Animal furball = new Animal(mammal);
-			this.eco.get(x).get(y).set(0,furball);			
+			this.eco.get(x).get(y).add(0,furball);			
+		}
+		if (type.equals("bird")) {
+			Bird bird= new Bird(line);
+			Animal birdie = new Animal(bird);
+			this.eco.get(x).get(y).add(0,bird);			
 		}
 		
 	}
@@ -66,22 +70,34 @@ public class Ecosystem {
 			
 			for (int i=0;i<this.eco.get(x).get(y).size();i++) {
 				Animal test = new Animal(".");
+				Animal temp = this.eco.get(x).get(y).get(i);
 				String type = test.findType(this.eco.get(x).get(y).get(i).getName());
 				if (type.equals("insect")){
-					Animal temp = this.eco.get(x).get(y).get(i);
-					this.eco.get(x).get(y).set(i, test);
+					
+					this.eco.get(x).get(y).set(0, test);
 					if (y-1>=0) {
-						this.eco.get(x).get(y-1).add(i,temp);
+						this.eco.get(x).get(y-1).add(0,temp);
 						temp.decAge();
 					}
 					else {
 						System.out.println("lol");
-						this.eco.get(x-1).get(this.eco.get(x-1).size()-1).add(i,temp);
+						this.eco.get(x-1).get(this.eco.get(x-1).size()-1).add(0,temp);
 						temp.decAge();
 					}
+				
+				}
+				else if (type.equals("mammal")) {
+					moveMammal(temp,test,temp.getSpecial(),x,y,i);
+				}
+				else if(type.equals("bird")) {
+					moveBird(temp,test,temp.getSpecial(),x,y,i);
 				}
 			}
 		}
+		
+	}
+	private void moveBird(Animal temp, Animal test, String special, int x, int y, int i) {
+		// TODO Auto-generated method stub
 		
 	}
 	private void moveAll() {
@@ -94,9 +110,52 @@ public class Ecosystem {
 					if (type.equals("insect")) {
 						moveInsect(temp,test,temp.getSpecial(),i,j,k);
 					}
+					else if (type.equals("mammal")) {
+						moveMammal(temp,test,temp.getSpecial(),i,j,k);
+					}
 				}
 			}
 		}
+	}
+	private void moveMammal(Animal temp, Animal test, String special, int x, int y, int i) {
+		// TODO Auto-generated method stub
+		if(special.equals("right")) {
+			moveMammalRight(temp,test,special,x,y,i);
+			
+		}
+		
+		
+	}
+	private void moveMammalRight(Animal temp, Animal test, String special, int x, int y, int i) {
+		// TODO Auto-generated method stub
+		System.out.println(temp.getFacing());
+		this.eco.get(x).get(y).set(0, test);
+
+		if (temp.getFacing()==1) {//up
+			if(x-1>=0) {
+				this.eco.get(x-1).get(y).add(0, temp);
+				
+			}
+			else {
+				
+				//System.out.println("lol");
+				int end = this.eco.size()-1;
+				//this.eco.get(end).get(1).add(0,temp);
+				this.eco.get(end).get(y+1).add(0,temp);
+				
+			}
+			temp.changeFacing();	
+		}else {// go left
+			if(y-1>=0) {
+				this.eco.get(x).get(y-1).add(0, temp);				
+			}
+			else {
+				int end = this.eco.get(x).size()-1;
+				this.eco.get(x+1).get(end).add(0,temp);	
+			}
+			temp.changeFacing();
+		}
+		
 	}
 	private void moveInsect(Animal temp, Animal test, String direction, int i, int j, int k) {
 		// TODO Auto-generated method stub
@@ -117,10 +176,10 @@ public class Ecosystem {
 		// TODO Auto-generated method stub
 		if (i-1>=0) {
 			this.eco.get(i-1).get(j).add(0,temp);
-			this.eco.get(i).get(j).set(k, test);
+			this.eco.get(i).get(j).add(k, test);
 		}else {
-			this.eco.get(this.eco.size()-1).get(this.eco.get(this.eco.size()-1).size()-1).set(0, temp);
-			this.eco.get(0).get(j).set(k, test);
+			this.eco.get(this.eco.size()-1).get(this.eco.get(this.eco.size()-1).size()-1).add(0, temp);
+			this.eco.get(0).get(j).add(0, test);
 		}
 		temp.square();
 	}
@@ -128,12 +187,12 @@ public class Ecosystem {
 		// TODO Auto-generated method stub
 		if (j-1>=0) {
 			this.eco.get(i).get(j-1).add(0,temp);
-			this.eco.get(i).get(j).set(0,test);
+			this.eco.get(i).get(j).add(0,test);
 		}
 		else if (j==0){
 			int end = this.eco.get(i).size()-1;
 			System.out.println(i+""+j);
-			this.eco.get(i).get(end).set(0, temp);
+			this.eco.get(i).get(end).add(0, temp);
 			this.eco.get(i).get(0).clear();
 			this.eco.get(i).get(0).add(0,test);
 			for (ArrayList<Animal> cols: this.eco.get(i)) {
