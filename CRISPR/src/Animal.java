@@ -1,14 +1,14 @@
 import java.util.ArrayList;
 
-public class Animal{
-	private Object type;
+public class Animal<E>{
+	private E type;
 	private ArrayList<String> mammals = new ArrayList<>();
     private ArrayList<String> birds = new ArrayList<>();
     private ArrayList<String> insects = new ArrayList<>();
     private ArrayList<ArrayList<String>> animalBank;
     
     
-	public Animal(Object type) {
+	public Animal(E type) {
 		//super(0, 0);
 		this.type=type;
 		animalBank();
@@ -39,9 +39,13 @@ public class Animal{
         animalBank.add(insects);
         this.animalBank = animalBank;
     }
+	
 	public String getType() {
-		
-		return this.type.toString();//this.type.toString();
+		if (this.type.getClass()=="".getClass()) {
+			//System.out.println("lol");
+			return ".";
+		}
+			return this.getName();
 	}
 	
 	public String getAnimalClass() {
@@ -49,12 +53,8 @@ public class Animal{
 		//return "";
 	}
 	public String findType(String name) {
-		//System.out.println(name);
-		// TODO Auto-generated method stub
 		for (int i=0;i<this.animalBank.size();i++) {
-			//System.out.println(this.animalBank.get(i));
 			for (int j=0; j<this.animalBank.get(i).size();j++) {
-				//System.out.println(i+""+j);
 				if ((this.animalBank.get(i).get(j).toLowerCase().equals(name))&& (i==0)) {
 					String type="mammal";
 					return (type);
@@ -74,10 +74,30 @@ public class Animal{
 		return "";
 	}
 	public String getName() {
-		// TODO Auto-generated method stub
-		if (this.getAnimalClass().equals(".")){
-			return "";
+		if (this.type.getClass()=="".getClass()) {
+			return ".";
 		}
-		return ((Animal) this.type).getName();
+		// TODO Auto-generated method stub
+		return  ((Animal) this.type).getName();
+	}
+	public String getSpecial() {
+		// TODO Auto-generated method stub
+		return ((Animal) this.type).getSpecial();
+	}
+	public void decAge() {
+		// TODO Auto-generated method stub
+		((Animal) this.type).decAge();
+	}
+	public int getAge() {
+		// TODO Auto-generated method stub
+		return ((Animal) this.type).getAge();
+	}
+	public int getSquare() {
+		// TODO Auto-generated method stub
+		return ((Animal) this.type).getSquare();
+	}
+	public void square() {
+		// TODO Auto-generated method stub
+		((Animal) this.type).square();
 	}
 }

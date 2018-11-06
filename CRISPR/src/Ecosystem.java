@@ -25,11 +25,11 @@ public class Ecosystem {
 		 	String[] line = new String[10];
 	        Bird b = new Bird("blank", "blank", "0");
 	        Insect i = new Insect(line);
-	        Mammal m = new Mammal("blank", "blank", "");
+	        Mammal m = new Mammal(line);
 	        String allLines = "";
 	        for (ArrayList<ArrayList<Animal>> row: this.eco) {
 	        	for (ArrayList<Animal> cols : row) {
-	        		allLines+=(cols.get(0).getType());
+	        		allLines+=(cols.get(0).getType().substring(0,1));
 	        	}
 	        	allLines+="\n";
 	        }
@@ -49,6 +49,11 @@ public class Ecosystem {
 			Animal bug = new Animal(insect);
 			this.eco.get(x).get(y).set(0,bug);			
 		}
+		if (type.equals("mammal")) {
+			Mammal mammal = new Mammal(line);
+			Animal furball = new Animal(mammal);
+			this.eco.get(x).get(y).set(0,furball);			
+		}
 		
 	}
 	public void move(String[] line) {
@@ -67,6 +72,12 @@ public class Ecosystem {
 					this.eco.get(x).get(y).set(i, test);
 					if (y-1>=0) {
 						this.eco.get(x).get(y-1).add(i,temp);
+						temp.decAge();
+					}
+					else {
+						System.out.println("lol");
+						this.eco.get(x-1).get(this.eco.get(x-1).size()-1).add(i,temp);
+						temp.decAge();
 					}
 				}
 			}
@@ -74,23 +85,66 @@ public class Ecosystem {
 		
 	}
 	private void moveAll() {
-		// TODO Auto-generated method stub
 		for (int i=0;i<this.eco.size();i++) {//row
 			for (int j=0;j<this.eco.get(i).size();j++) {//col
 				for (int k=0;k<this.eco.get(i).get(j).size();k++) {
 					Animal temp = new Animal(this.eco.get(i).get(j).get(k));
 					Animal test = new Animal(".");
 					String type = test.findType(temp.getName());
-					//its printing the animal object instead of the first letter.
-					if (type.equals("insect")){
-						System.out.println(type);
-						this.eco.get(i).get(j).set(k, test);
-						if (j-1>=0) {
-							this.eco.get(i).get(j-1).add(k,temp);
-						}
+					if (type.equals("insect")) {
+						moveInsect(temp,test,temp.getSpecial(),i,j,k);
 					}
 				}
 			}
 		}
+	}
+	private void moveInsect(Animal temp, Animal test, String direction, int i, int j, int k) {
+		// TODO Auto-generated method stub
+		int square=temp.getSquare();
+		//System.out.println(square);
+		if (square!=0) {
+			if(square%2==0) {
+				moveSide(temp,test,direction,i,j,k);
+				
+			}
+			else if (square%2==1) {
+				moveUp(temp,test,direction,i,j,k);
+			}
+		}
+		temp.decAge();
+	}
+	private void moveUp(Animal temp, Animal test, String direction, int i, int j, int k) {
+		// TODO Auto-generated method stub
+		if (i-1>=0) {
+			this.eco.get(i-1).get(j).add(0,temp);
+			this.eco.get(i).get(j).set(k, test);
+		}else {
+			this.eco.get(this.eco.size()-1).get(this.eco.get(this.eco.size()-1).size()-1).set(0, temp);
+			this.eco.get(0).get(j).set(k, test);
+		}
+		temp.square();
+	}
+	private void moveSide(Animal temp, Animal test, String direction, int i, int j, int k) {
+		// TODO Auto-generated method stub
+		if (j-1>=0) {
+			this.eco.get(i).get(j-1).add(0,temp);
+			this.eco.get(i).get(j).set(0,test);
+		}
+		else if (j==0){
+			int end = this.eco.get(i).size()-1;
+			System.out.println(i+""+j);
+			this.eco.get(i).get(end).set(0, temp);
+			this.eco.get(i).get(0).clear();
+			this.eco.get(i).get(0).add(0,test);
+			for (ArrayList<Animal> cols: this.eco.get(i)) {
+				for (Animal animal: cols) {
+					System.out.print(animal.getType());
+				}
+				System.out.println("");
+			}
+			//this.eco.get(i).get(end).set(0, temp);
+			
+		}
+		temp.square();
 	}
 }
