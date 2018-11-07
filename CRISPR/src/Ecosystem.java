@@ -97,13 +97,30 @@ public class Ecosystem {
 	private void moveBird(Animal temp, Animal test, String special, int x, int y, int i) {
 		// TODO Auto-generated method stub
 		if (temp.getDirection().equals("d")){
-			
-			this.eco.get(x+1).get(y).add(0,temp);
-			this.eco.get(x).get(y).set(0,test);
+			if (x+1<this.eco.size()) {
+				System.out.println(x+""+y);
+				this.eco.get(x+1).get(y).add(0,temp);
+				this.eco.get(x).get(y).set(0,test);
+				if (temp.getSteps()-1!=0) {
+					temp.decSteps();
+				}else {
+					temp.resetSteps();
+				}
+			}else {
+				int end = this.eco.size()-1;
+				this.eco.get(end).get(y).add(0,temp);
+				this.eco.get(x).get(y).set(0,test);
+				if (temp.getSteps()-1!=0) {
+					temp.decSteps();
+				}else {
+					temp.resetSteps();
+				}
+			}
 		}
 	}
 	private void moveAll() {
 		for (int i=0;i<this.eco.size();i++) {//row
+			//System.out.println(i);
 			for (int j=0;j<this.eco.get(i).size();j++) {//col
 				for (int k=0;k<this.eco.get(i).get(j).size();k++) {
 					Animal temp = new Animal(this.eco.get(i).get(j).get(k));
@@ -114,6 +131,9 @@ public class Ecosystem {
 					}
 					else if (type.equals("mammal")) {
 						moveMammal(temp,test,temp.getSpecial(),i,j,k);
+					}else if (type.equals("bird")) {
+						
+						moveBird(temp,test,temp.getSpecial(),i,j,k);
 					}
 				}
 			}

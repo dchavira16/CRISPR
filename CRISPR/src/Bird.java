@@ -7,6 +7,7 @@ public class Bird extends Animal{
 	private int steps;
 	private int lastEat;
 	private int facing;
+	private int defaultSteps;
 	private String direction;
 	public Bird(String[] line) {
 		super("");
@@ -16,11 +17,22 @@ public class Bird extends Animal{
 		this.lastEat=10;
 		String name = line[2];
 		String gender = line[3];
+		int defaultSteps=Integer.parseInt(line[4]);
 		int steps = Integer.parseInt(line[4]);
+		this.defaultSteps=defaultSteps;
 		this.name=name;
 		this.gender=gender;
 		this.steps = steps;
 		// TODO Auto-generated constructor stub
+	}
+	public void resetSteps() {
+		this.steps=this.defaultSteps;
+	}
+	public void decSteps() {
+		this.steps-=1;
+	}
+	public int getSteps() {
+		return this.steps;
 	}
 	public String getDirection() {
 		return this.direction;

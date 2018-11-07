@@ -112,4 +112,15 @@ public class Animal<E>{
 		// TODO Auto-generated method stub
 		return ((Animal) this.type).getDirection();
 	}
+	public void decSteps() {
+		// TODO Auto-generated method stub
+		((Animal) this.type).decSteps();
+	}
+	public int getSteps() {
+		return ((Animal) this.type).getSteps();
+	}
+	public void resetSteps() {
+		// TODO Auto-generated method stub
+		((Animal) this.type).resetSteps();
+	}
 }
