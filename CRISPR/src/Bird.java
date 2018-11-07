@@ -4,21 +4,29 @@ public class Bird extends Animal{
 	private int age;
 	private String name;
 	private String gender;
-	private String direction;
+	private int steps;
 	private int lastEat;
 	private int facing;
+	private String direction;
 	public Bird(String[] line) {
 		super("");
+		this.direction="d";
 		this.facing=1;
 		this.age=100;
 		this.lastEat=10;
 		String name = line[2];
 		String gender = line[3];
-		String direction = line[4];
+		int steps = Integer.parseInt(line[4]);
 		this.name=name;
 		this.gender=gender;
-		this.direction = direction;
+		this.steps = steps;
 		// TODO Auto-generated constructor stub
+	}
+	public String getDirection() {
+		return this.direction;
+	}
+	public void changeDirectionTo(String direction) {
+		this.direction=direction;
 	}
 	public void changeFacing() {
 		if(this.facing==1) {

@@ -108,4 +108,8 @@ public class Animal<E>{
 		// TODO Auto-generated method stub
 		((Animal) this.type).changeFacing();
 	}
+	public String getDirection() {
+		// TODO Auto-generated method stub
+		return ((Animal) this.type).getDirection();
+	}
 }

@@ -22,9 +22,7 @@ public class Ecosystem {
 	}
 	public void print() {
 		 	String[] line = new String[10];
-	        Bird b = new Bird(line);
-	        Insect i = new Insect(line);
-	        Mammal m = new Mammal(line);
+	       
 	        String allLines = "";
 	        for (ArrayList<ArrayList<Animal>> row: this.eco) {
 	        	for (ArrayList<Animal> cols : row) { 
@@ -98,7 +96,11 @@ public class Ecosystem {
 	}
 	private void moveBird(Animal temp, Animal test, String special, int x, int y, int i) {
 		// TODO Auto-generated method stub
-		
+		if (temp.getDirection().equals("d")){
+			
+			this.eco.get(x+1).get(y).add(0,temp);
+			this.eco.get(x).get(y).set(0,test);
+		}
 	}
 	private void moveAll() {
 		for (int i=0;i<this.eco.size();i++) {//row
@@ -130,11 +132,9 @@ public class Ecosystem {
 		// TODO Auto-generated method stub
 		System.out.println(temp.getFacing());
 		this.eco.get(x).get(y).set(0, test);
-
 		if (temp.getFacing()==1) {//up
 			if(x-1>=0) {
 				this.eco.get(x-1).get(y).add(0, temp);
-				
 			}
 			else {
 				
